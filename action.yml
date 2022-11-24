@@ -30,7 +30,7 @@ runs:
     - name: Generate C/C++ bindings
       shell: bash
       run: |
-        apk add musl-dev
+        apt update && apt install build-essential
         cargo install cbindgen
         cbindgen --config=${{ inputs.config }} --output=${{ inputs.output }}
 
