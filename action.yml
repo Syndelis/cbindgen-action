@@ -20,23 +20,20 @@ inputs:
     required: true
 
 runs:
-  using: "docker"
-  image: "rust:1.65-alpine3.16"
+  using: "composite"
   steps:
     - name: Checkout repository
       uses: actions/checkout@v3
       with:
         submodules: "true"
 
-    - name: Install Cbindgen
+    - name: Generate C/C++ bindings
+      uses: docker://rust:1.65-alpine3.16
       shell: bash
       run: |
         apk add musl-dev
         cargo install cbindgen
-
-    - name: Generate C/C++ bindings
-      shell: bash
-      run: cbindgen --config=${{ inputs.config }} --output=${{ inputs.output }}
+        cbindgen --config=${{ inputs.config }} --output=${{ inputs.output }}
 
     - name: Commit bindings
       uses: stefanzweifel/git-auto-commit-action@v4
