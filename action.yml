@@ -1,0 +1,48 @@
+name: 'Cbindgen Action'
+author: 'Brenno Lemos'
+description: 'Automatically generate C/C++ bindings for your Rust code.'
+branding:
+  icon: "upload-cloud"
+  color: "purple"
+
+inputs:
+  github_token:
+    description: "A GitHub token for pushing to the repo. Example: https://git.io/passing-token"
+    required: true
+
+  config:
+    description: "Path of the cbindgen configuration file."
+    required: true
+    default: "cbindgen.toml"
+
+  output:
+    description: "Path where to save the generated bindings."
+    required: true
+
+runs:
+  using: "rust:1.65-alpine3.16"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        submodules: "true"
+
+    - name: Install Cbindgen
+      run: |
+        apk add musl-dev
+        cargo install cbindgen
+
+    - name: Generate C/C++ bindings
+      run: cbindgen --config=${{ inputs.config }} --output=${{ inputs.output }}
+
+    - name: Commit bindings
+      uses: stefanzweifel/git-auto-commit-action@v4
+      env:
+        GITHUB_TOKEN: ${{ secrets.github_token }}
+      with:
+        commit_message: Update generated C/C++ Bindings
+        branch: ${GITHUB_REF##*/}
+        commit_user_name: cbindgen-action
+        commit_user_email: actions@github.com
+        commit_author: cbindgen-action <actions@github.com>
+        file_pattern: ${{ inputs.output }}
