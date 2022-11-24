@@ -2,8 +2,8 @@ name: 'Cbindgen Action'
 author: 'Brenno Lemos'
 description: 'Automatically generate C/C++ bindings for your Rust code.'
 branding:
-  icon: "upload-cloud"
-  color: "purple"
+  icon: "box"
+  color: "orange"
 
 inputs:
   github_token:
