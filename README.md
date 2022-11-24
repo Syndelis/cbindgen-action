@@ -1,12 +1,12 @@
 ## Basic Usage
 
 ```yaml
-name: Doxygen GitHub Pages Deploy Action
+name: Cbindgen Action
 
 on:
   push:
-    branches:
-      - main
+    paths:
+      - '**/*.rs'
 
 jobs:
   deploy:

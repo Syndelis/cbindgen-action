@@ -28,17 +28,19 @@ runs:
         submodules: "true"
 
     - name: Install Cbindgen
+      shell: bash
       run: |
         apk add musl-dev
         cargo install cbindgen
 
     - name: Generate C/C++ bindings
+      shell: bash
       run: cbindgen --config=${{ inputs.config }} --output=${{ inputs.output }}
 
     - name: Commit bindings
       uses: stefanzweifel/git-auto-commit-action@v4
       env:
-        GITHUB_TOKEN: ${{ secrets.github_token }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
       with:
         commit_message: Update generated C/C++ Bindings
         branch: ${GITHUB_REF##*/}
