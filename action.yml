@@ -28,7 +28,6 @@ runs:
         submodules: "true"
 
     - name: Generate C/C++ bindings
-      uses: docker://rust:1.65-alpine3.16
       shell: bash
       run: |
         apk add musl-dev
