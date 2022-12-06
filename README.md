@@ -19,13 +19,11 @@ on:
 jobs:
   cbuild:
     runs-on: ubuntu-latest
-    container:
-      image: docker://rust:1.65
     steps:
-      - uses: Syndelis/cbindgen-action@v1.0.0
+      - uses: Syndelis/cbindgen-action@v1.1.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           output: include/my_header.h
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 Then, any commits that create/alter/delete Rust files (`.rs`) will run the action when pushed to GitHub, creating a new `include/my_header.h` file after completing the run. This will work regarless of the branch you push your commits on.
