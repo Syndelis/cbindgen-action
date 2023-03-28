@@ -45,6 +45,7 @@ runs:
         tool: cbindgen
 
     - name: Generate C/C++ bindings
+      shell: bash
       run: cbindgen --config=${{ inputs.config }} --output=${{ inputs.output }}
 
     - name: Commit bindings
